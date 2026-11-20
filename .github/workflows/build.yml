@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-15
     env:
       API_BASE: ${{ vars.API_BASE }}
-      BUNDLE_ID: pe.isil.samir.fuegoandino
+      BUNDLE_ID: pe.isil.samir.makiandino
     steps:
       - uses: actions/checkout@v4
 
@@ -31,8 +31,8 @@ jobs:
         working-directory: ios
         run: |
           xcodebuild build \
-            -project FuegoAndino.xcodeproj \
-            -scheme FuegoAndino \
+            -project MakiAndino.xcodeproj \
+            -scheme MakiAndino \
             -destination "id=$UDID" \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
@@ -42,7 +42,7 @@ jobs:
         run: |
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
-          APP=$(find ios/build -name "FuegoAndino.app" -path "*Debug-iphonesimulator*" | head -1)
+          APP=$(find ios/build -name "MakiAndino.app" -path "*Debug-iphonesimulator*" | head -1)
           xcrun simctl install "$UDID" "$APP"
           mkdir -p capturas
           EXTRA=()
@@ -63,7 +63,7 @@ jobs:
         with:
           name: proyecto-xcode
           path: |
-            ios/FuegoAndino.xcodeproj
-            ios/FuegoAndino
+            ios/MakiAndino.xcodeproj
+            ios/MakiAndino
             ios/Info.plist
             ios/project.yml

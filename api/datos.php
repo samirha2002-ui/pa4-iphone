@@ -9,9 +9,15 @@ function responder($datos, int $codigo = 200): void {
     exit;
 }
 
-// Imágenes remotas. Puedes reemplazarlas por URLs de tus propias fotos subidas a Alwaysdata.
-function img(string $semilla, int $w = 800, int $h = 600): string {
-    return "https://picsum.photos/seed/$semilla/$w/$h";
+// Imágenes remotas.
+// Si existe api/img/<nombre>.jpg (o .png / .webp) se usa esa foto; si no, una imagen de ejemplo.
+function img(string $nombre, int $w = 800, int $h = 600): string {
+    foreach (['jpg', 'jpeg', 'png', 'webp'] as $ext) {
+        if (file_exists(__DIR__ . "/img/$nombre.$ext")) {
+            return 'https://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . "/img/$nombre.$ext";
+        }
+    }
+    return "https://picsum.photos/seed/$nombre/$w/$h";
 }
 
 function categorias(): array {
@@ -75,7 +81,7 @@ function equipo(): array {
         ['id' => 1, 'nombre' => 'Rocío Quispe', 'cargo' => 'Itamae (chef de sushi)', 'foto' => $f(47)],
         ['id' => 2, 'nombre' => 'Marco Salazar', 'cargo' => 'Maestro de makis', 'foto' => $f(12)],
         ['id' => 3, 'nombre' => 'Lucía Paredes', 'cargo' => 'Cocina fría', 'foto' => $f(32)],
-        ['id' => 4, 'nombre' => 'Diego Huamán', 'cargo' => 'Barman', 'foto' => $f(15)],
+        ['id' => 4, 'nombre' => 'Diego Huamán', 'cargo' => 'Barman', 'foto' => $f(33)],
         ['id' => 5, 'nombre' => 'Carla Rivas', 'cargo' => 'Jefa de sala', 'foto' => $f(5)],
         ['id' => 6, 'nombre' => 'Jorge Mendoza', 'cargo' => 'Sommelier de sake', 'foto' => $f(60)],
     ];
